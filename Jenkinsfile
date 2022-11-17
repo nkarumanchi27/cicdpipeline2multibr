@@ -4,7 +4,7 @@ pipeline {
         PROJECT_ID = 'bitnami--yv-rtlewq'
         STAGE_CLUSTER_NAME = 'cicdpipelinestage'
         PROD_CLUSTER_NAME = 'cicdpipelineproduction'
-        LOCATION = 'us-central1'
+        LOCATION = 'us-east1'
         CREDENTIALS_ID = 'cicdpipeline'
     }
     stages {
