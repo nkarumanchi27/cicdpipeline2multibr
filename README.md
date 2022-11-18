@@ -21,9 +21,9 @@ When it comes to the deployment aspects, this Jenkins based multistage build job
 # CI/CD Pipeline workflow
 
 1. Create a multibranch pipeline job on to your jenkins server instance.
-    -- Branch source: Git,project repository: THis repository URL, Cridentials: GitHub Cridentials.
-    -- Build configuration Mode: by Jenkinsfile, Script path: Jenkinsfile.
-    -- Scan multibranch pipeline Triggers: Scan by webhook.
+    - Branch source: Git,project repository: THis repository URL, Cridentials: GitHub Cridentials.
+    - Build configuration Mode: by Jenkinsfile, Script path: Jenkinsfile.
+    - Scan multibranch pipeline Triggers: Scan by webhook.
 2. Program the GitHub Webhook with the jenkins URL " JENKINS_URL/multibranch-webhook-trigger/invoke?token=[Trigger token]" to push repo/branch change notification payloads.
 3. add the necessary branch protections to your GitHub repository. Current implementation require a pull request for merging branches with atleast 1 approval to merge.
 4. Preapre both the Stage and production GKE clusters, Docker machine, Jenkins to Docker integration.
