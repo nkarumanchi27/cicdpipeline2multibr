@@ -8,7 +8,7 @@ When it comes to the deployment aspects, this Jenkins based multistage build job
  - Server.js, package.json: These are the two main files implementing the application functionality.
  - Jenkinsfile: This file has various stages & steps for the build, delivery to Docker Hub and deployment of the application. It also has the necessary logic in place to skip some of the build steps based on the Github branch.
  - Dockerfile: This file has the necessary steps to create a docker image for the application.
- - deployment.yaml: This file has the necessary code to create Kubernetes resources ( Deployment and a Servie).
+ - deployment.yaml: This file has the necessary code to create Kubernetes resources(Deployment and Servie).
  - This README.file
 
 
