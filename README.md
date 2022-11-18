@@ -6,9 +6,9 @@ When it comes to the deployment aspects, this Jenkins based multistage build job
 
 # Review of the files present in this repository
  - Server.js, package.json: These are the two main files implementing the application functionality.
- - Jenkinsfile : This file has various stages & steps for the build, delivery to Docker Hub and deployment of the application. It also has the necessary logic in place to skip some of the build steps based on the Github branch.
- - Dockerfile: This file has necessary steps to create a docker image for the application.
- - deployment.yaml : This file has necessary code to create Kubernetes resources ( Deployment and Servie).
+ - Jenkinsfile: This file has various stages & steps for the build, delivery to Docker Hub and deployment of the application. It also has the necessary logic in place to skip some of the build steps based on the Github branch.
+ - Dockerfile: This file has the necessary steps to create a docker image for the application.
+ - deployment.yaml: This file has the necessary code to create Kubernetes resources ( Deployment and a Servie).
  - This README.file
 
 
@@ -22,12 +22,12 @@ When it comes to the deployment aspects, this Jenkins based multistage build job
 
 # CI/CD Pipeline workflow
 
-1. Create a multibranch pipeline job on to your Jenkins server instance.
+1. Create a multibranch pipeline job on to the Jenkins server instance.
     - Branch source: Git, project repository: This repository URL, credentials: GitHub credentials.
     - Build configuration Mode: by Jenkinsfile, Script path: Jenkinsfile.
     - Scan multibranch pipeline Triggers: Scan by webhook.
-2. Program the GitHub Webhook with the Jenkins URL ex: "JENKINS_URL/multibranch-webhook-trigger/invoke?token=[Trigger token]" to push repo/branch changes notifications payloads to jenkins server.
-3. Add the necessary branch protections to your GitHub repository. Current implementation require a pull request for merging branches with at least 1 approval to merge.
+2. Program the GitHub Webhook with the Jenkins URL ex: "JENKINS_URL/multibranch-webhook-trigger/invoke?token=[Trigger token]" to push repo/branch changes notifications payloads to Jenkins server.
+3. Add the necessary branch protections to your GitHub repository. The Current implementation requires a pull request for merging branches with at least 1 approval to merge.
 4. Prepare both the Stage and production GKE clusters, Docker machine, Jenkins to Docker integration.
 5. To trigger a CI/CD pipeline, clone this repository onto your local, make some changes onto the files from "stage" branch and commit. Ex: You can Edit the "hello world" text from the application or can edit something on this readme file.
 6. Above step will trigger a CI/CD pipeline run on the "stage" branch in Jenkins, which will pull the source code from GitHub, build a docker image, push the docker image onto Docker Hub, finally deploy the built docker image onto the GKE Stage cluster.
