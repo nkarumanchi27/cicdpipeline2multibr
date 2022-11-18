@@ -5,8 +5,8 @@ When it comes to the deployment aspects, this Jenkins based multistage build job
 
 
 # Review of the files present in this repository
- - Server.js, package.json: These are the two files implementing the application functionality.
- - Jenkinsfile : This file has various stages & steps for the build, deliver and deployment of the applicaiton. It also has the necessary conditions inplace to skip some of the build steps based on the Github branch.
+ - Server.js, package.json: These are the two main files implementing the application functionality.
+ - Jenkinsfile : This file has various stages & steps for the build, delivery to Docker Hub and deployment of the applicaiton. It also has the necessary conditions inplace to skip some of the build steps based on the Github branch.
  - Dockerfile: This file has necessary steps to create a docker image for the application.
  - deployment.yaml : This file has necessary code to create kubernetes resources ( Deployment and Servie).
  - This README.file
@@ -17,20 +17,28 @@ When it comes to the deployment aspects, this Jenkins based multistage build job
 1. A Jenkins server instance with necessary plugins installed & cridentials configured.
 2. A devlopment server instance with Docker engine installed and configured.
 3. Docker hub account and cridentials to push images.
-4. GKE Cluster with necesary service accounts,roles created, configured to deploy the application. 
+4. GitHub account and Git client.
+5. GKE Cluster with necesary service accounts,roles configured to deploy the application. 
 
 # CI/CD Pipeline workflow
 
 1. Create a multibranch pipeline job on to your jenkins server instance.
-    - Branch source: Git,project repository: THis repository URL, Cridentials: GitHub Cridentials.
+    - Branch source: Git,project repository: This repository URL, Cridentials: GitHub Cridentials.
     - Build configuration Mode: by Jenkinsfile, Script path: Jenkinsfile.
     - Scan multibranch pipeline Triggers: Scan by webhook.
-2. Program the GitHub Webhook with the jenkins URL " JENKINS_URL/multibranch-webhook-trigger/invoke?token=[Trigger token]" to push repo/branch change notification payloads.
-3. add the necessary branch protections to your GitHub repository. Current implementation require a pull request for merging branches with atleast 1 approval to merge.
+2. Program the GitHub Webhook with the jenkins URL ex: "JENKINS_URL/multibranch-webhook-trigger/invoke?token=[Trigger token]" to push repo/branch changes notifications payloads to jenkins server.
+3. Add the necessary branch protections to your GitHub repository. Current implementation require a pull request for merging branches with atleast 1 approval to merge.
 4. Preapre both the Stage and production GKE clusters, Docker machine, Jenkins to Docker integration.
-5. Make some changes onto the files from "stage" branch and commit them. You can Edit the "hello world" text from the applicaiton or can edit something on this readme file.
-6. This will trigger a CI/CD pipeline on the "stage" branch, which will pull the source from github, build a docker image, push the docker image onto Docker Hub, deploy the built image onto GKE Stage cluster.
+5. To trigger a CI/CD pipeline, clone this repository onto your local , make some changes onto the files from "stage" branch and commit. Ex: You can Edit the "hello world" text from the applicaiton or can edit something on this readme file.
+6. Above step will trigger a CI/CD pipeline run on the "stage" branch in Jenkins, which will pull the source code from github, build a docker image, push the docker image onto Docker Hub, finally deploy the built docker image onto the GKE Stage cluster.
 7. Also, on the GitHub screen you will see an option to create a pull request for merging these changes onto "master" branch. 
-8. When you create that pull request, the collaborators/reviewers of this repository will be notified to review and approve the pull request.
-9. when the pull request is approved,merged onto master, it will trigger another CI/CD pipeline , this time on the master branch.
-10. This master branch pipeline also, will pull the source from GitHub, build a Docker image,  Push the image onto Docker Hub, Deploy the image onto GKE production cluster. 
+8. When you create that pull request, the collaborators/reviewers of this repository will be notified via email to review and approve the pull request.
+9. when the pull request is approved,merged onto master, it will trigger another CI/CD pipeline, this time on the master branch.
+10.This master branch pipeline also, will pull the source code from GitHub, build a Docker image,  Push the image onto Docker Hub, Deploy the production image onto GKE production cluster. 
+
+# Next Steps and improvements:
+  - Upgrade to GitHub Organization, enterprise or GitLab account to implement private repositories, to provide view/read only access to some of the users of this repo.
+  - Implement some test cases for the application and code smells scanning through tools like SonarQube.
+  - Implement a backend database for this application.
+  - Operational support documentation.
+  - Explore the options to configure EFK or Prometheus/Grafana configuraiton onto the GKE cluster.
